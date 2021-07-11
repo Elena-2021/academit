@@ -1,5 +1,6 @@
-package ru.academit.elena072021.range;
+package ru.academit.elena072021.rangemain;
 
+import ru.academit.elena072021.range.Range;
 import java.util.Scanner;
 
 public class RangeMain {
@@ -7,12 +8,12 @@ public class RangeMain {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Введите координату начала диапазона: ");
-        double rangeStart = scanner.nextDouble();
+        double from = scanner.nextDouble();
 
         System.out.print("Введите координату конца диапазона: ");
-        double rangeEnd = scanner.nextDouble();
+        double to = scanner.nextDouble();
 
-        Range range = new Range(rangeStart, rangeEnd);
+        Range range = new Range(from, to);
         System.out.println("Длина диапазона = " + range.getLength());
 
         System.out.print("Введите произвольное число для проверки на попадание в диапазон: ");
