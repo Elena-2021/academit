@@ -2,11 +2,13 @@ package ru.academit.elena072021.shapes;
 
 public class Circle implements Shape {
     private final double radius;
-    private final int hash;
 
     public Circle(double radius) {
         this.radius = radius;
-        this.hash = (int) Math.ceil(radius);
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     @Override
@@ -21,7 +23,7 @@ public class Circle implements Shape {
 
     @Override
     public double getArea() {
-        return Math.PI * Math.pow(radius, 2);
+        return Math.PI * radius * radius;
     }
 
     @Override
@@ -31,21 +33,29 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        return "[Круг: Радиус = " + this.radius + "]";
+        return "{Круг: Радиус = " + radius + "}";
     }
 
     @Override
-    public boolean equals(Shape shape) {
-        if (shape == null || this.getClass() != shape.getClass()) {
+    public boolean equals(Object shape) {
+        if (shape == this) {
+            return true;
+        }
+
+        if (shape == null || getClass() != shape.getClass()) {
             return false;
         }
 
-        Circle s1 = (Circle) shape;
-        return (this.radius == s1.radius);
+        Circle circle = (Circle) shape;
+
+        return radius == circle.radius;
     }
 
     @Override
     public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(radius);
         return hash;
     }
 }

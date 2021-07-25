@@ -2,11 +2,13 @@ package ru.academit.elena072021.shapes;
 
 public class Square implements Shape {
     private final double sideLength;
-    private final int hash;
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
-        this.hash = (int) Math.ceil(sideLength);
+    }
+
+    public double getSideLength() {
+        return sideLength;
     }
 
     @Override
@@ -21,7 +23,7 @@ public class Square implements Shape {
 
     @Override
     public double getArea() {
-        return Math.pow(sideLength, 2);
+        return sideLength * sideLength;
     }
 
     @Override
@@ -31,21 +33,29 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return "[Квадрат: Сторона = " + this.sideLength + "]";
+        return "{Квадрат: Длина стороны = " + sideLength + "}";
     }
 
     @Override
-    public boolean equals(Shape shape) {
-        if (shape == null || this.getClass() != shape.getClass()) {
+    public boolean equals(Object shape) {
+        if (shape == this) {
+            return true;
+        }
+
+        if (shape == null || getClass() != shape.getClass()) {
             return false;
         }
 
         Square square = (Square) shape;
-        return (this.sideLength == square.sideLength);
+
+        return sideLength == square.sideLength;
     }
 
     @Override
     public int hashCode() {
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(sideLength);
         return hash;
     }
 }

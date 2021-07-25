@@ -1,31 +1,31 @@
 package ru.academit.elena072021.shapes_main;
 
 import java.util.Arrays;
+
 import ru.academit.elena072021.shapes.*;
 
 public class Main {
-    public static Shape getShapesSortToArea(Shape[] array, int position) {    // position - порядковый номер позиции от max к min.
-        Arrays.sort(array, Shape.AreaComparator);
-
-        if (array.length - position < 0) {
+    public static Shape getShapeWithAreaSizeSetPosition(Shape[] array, int position) {    // position - порядковый номер позиции от max к min.
+        if (array.length < position) {
             return null;
         }
+
+        Arrays.sort(array, new AreaComparator());
 
         return array[array.length - position];
     }
 
-    public static Shape getShapesSortToPerimeter(Shape[] array, int position) {   // position - порядковый номер позиции от max к min.
-        Arrays.sort(array, Shape.PerimeterComparator);
-
-        if (array.length - position < 0) {
+    public static Shape getShapeWithPerimeterSizeSetPosition(Shape[] array, int position) {   // position - порядковый номер позиции от max к min.
+        if (array.length < position) {
             return null;
         }
+
+        Arrays.sort(array, new PerimeterComparator());
 
         return array[array.length - position];
     }
 
     public static void main(String[] args) {
-
         Shape rectangle = new Rectangle(11, 2);
         System.out.println(rectangle);
         System.out.println("Периметр = " + rectangle.getPerimeter());
@@ -50,24 +50,34 @@ public class Main {
         System.out.println("Площадь  = " + square.getArea());
         System.out.println();
 
-        Shape[] array = new Shape[]{rectangle, triangle, circle, square, new Square(2), new Square(1),
-                new Rectangle(9, 2), new Rectangle(8, 2), new Circle(1), new Circle(3)};
+        Shape[] shapesArray = {
+                rectangle,
+                triangle,
+                circle,
+                square,
+                new Square(2),
+                new Square(1),
+                new Rectangle(9, 2),
+                new Rectangle(8, 2),
+                new Circle(1),
+                new Circle(3)
+        };
 
         System.out.println("Фигура с максимальной площадью:");
-        Shape maxArea = getShapesSortToArea(array, 1);
-        System.out.println(maxArea);
+        Shape shapeWithMaxArea = getShapeWithAreaSizeSetPosition(shapesArray, 1);
+        System.out.println(shapeWithMaxArea);
 
-        if (maxArea != null) {
-            System.out.println("Площадь  = " + maxArea.getArea());
+        if (shapeWithMaxArea != null) {
+            System.out.println("Площадь  = " + shapeWithMaxArea.getArea());
         }
         System.out.println();
 
         System.out.println("Фигура со вторым по величине периметром");
-        Shape maxPerimeter = getShapesSortToPerimeter(array, 2);
-        System.out.println(maxPerimeter);
+        Shape shapeWithSecondLargestPerimeter = getShapeWithPerimeterSizeSetPosition(shapesArray, 2);
+        System.out.println(shapeWithSecondLargestPerimeter);
 
-        if (maxPerimeter != null) {
-            System.out.println("Периметр = " + maxPerimeter.getPerimeter());
+        if (shapeWithSecondLargestPerimeter != null) {
+            System.out.println("Периметр = " + shapeWithSecondLargestPerimeter.getPerimeter());
         }
     }
 }

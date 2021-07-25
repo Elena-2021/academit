@@ -33,74 +33,79 @@ public class Range {
         return number >= from && number <= to;
     }
 
-    public Range getIntersection(Range range2) {
-        double from1 = from;
-        double to1 = to;
-
-        double from2 = range2.from;
-        double to2 = range2.to;
-
-        if ((from2 <= from1 || from2 >= to1) && (to2 <= from1 || to2 >= to1) && (from1 <= from2 || from1 >= to2) && (to1 <= from2 || to1 >= to2)) {
+    public Range getIntersection(Range range) {
+        if ((range.from <= from || range.from >= to) && (range.to <= from || range.to >= to) && (from <= range.from ||
+                from >= range.to) && (to <= range.from || to >= range.to)) {
             return null;
-        } else if (from2 > from1 && to2 < to1) {
-            return new Range(from2, to2);
-        } else if (from2 > from1 && to2 > to1) {
-            return new Range(from2, to1);
-        } else if (from2 < from1 && to2 > to1) {
-            return new Range(from1, to1);
         }
 
-        return new Range(from1, to2);
+        if (range.from > from && range.to < to) {
+            return new Range(range.from, range.to);
+        }
+
+        if (range.from > from && range.to > to) {
+            return new Range(range.from, to);
+        }
+
+        if (range.from < from && range.to > to) {
+            return new Range(from, to);
+        }
+
+        return new Range(from, range.to);
     }
 
-    public Range[] getIntegration(Range range2) {
+    public Range[] getIntegration(Range range) {
         Range[] array = null;
-        double from1 = from;
-        double to1 = to;
 
-        double from2 = range2.from;
-        double to2 = range2.to;
-
-        if ((from2 < from1 || from2 > to1) && (to2 < from1 || to2 > to1) && (from1 < from2 || from1 > to2) && (to1 < from2 || to1 > to2)) {
-            array = new Range[]{new Range(from1, to1), new Range(from2, to2)};
-            return array;
-        } else if (from2 >= from1 && to2 <= to1) {
-            array = new Range[]{new Range(from1, to1)};
-            return array;
-        } else if (from2 >= from1 && to2 >= to1) {
-            array = new Range[]{new Range(from1, to2)};
-            return array;
-        } else if (from2 <= from1 && to2 >= to1) {
-            array = new Range[]{new Range(from2, to2)};
+        if ((range.from < from || range.from > to) && (range.to < from || range.to > to) && (from < range.from ||
+                from > range.to) && (to < range.from || to > range.to)) {
+            array = new Range[]{new Range(from, to), new Range(range.from, range.to)};
             return array;
         }
 
-        array = new Range[]{new Range(from2, to1)};
+        if (range.from >= from && range.to <= to) {
+            array = new Range[]{new Range(from, to)};
+            return array;
+        }
+
+        if (range.from >= from && range.to >= to) {
+            array = new Range[]{new Range(from, range.to)};
+            return array;
+        }
+
+        if (range.from <= from && range.to >= to) {
+            array = new Range[]{new Range(range.from, range.to)};
+            return array;
+        }
+
+        array = new Range[]{new Range(range.from, to)};
         return array;
     }
 
-    public Range[] getDifference(Range range2) {
+    public Range[] getDifference(Range range) {
         Range[] array = null;
-        double from1 = from;
-        double to1 = to;
 
-        double from2 = range2.from;
-        double to2 = range2.to;
+        if ((range.from <= from || range.from >= to) && (range.to <= from || range.to >= to) && (from <= range.from ||
+                from >= range.to) && (to <= range.from || to >= range.to)) {
+            array = new Range[]{new Range(from, to)};
+            return array;
+        }
 
-        if ((from2 <= from1 || from2 >= to1) && (to2 <= from1 || to2 >= to1) && (from1 <= from2 || from1 >= to2) && (to1 <= from2 || to1 >= to2)) {
-            array = new Range[]{new Range(from1, to1)};
+        if (range.from > from && range.to < to) {
+            array = new Range[]{new Range(from, range.from), new Range(range.to, to)};
             return array;
-        } else if (from2 > from1 && to2 < to1) {
-            array = new Range[]{new Range(from1, from2), new Range(to2, to1)};
+        }
+
+        if (range.from > from && range.to > to) {
+            array = new Range[]{new Range(from, range.from)};
             return array;
-        } else if (from2 > from1 && to2 > to1) {
-            array = new Range[]{new Range(from1, from2)};
-            return array;
-        } else if (from2 < from1 && to2 > to1) {
+        }
+
+        if (range.from < from && range.to > to) {
             return null;
         }
 
-        array = new Range[]{new Range(to2, to1)};
+        array = new Range[]{new Range(range.to, to)};
         return array;
     }
 }
