@@ -5,6 +5,19 @@ import ru.academit.elena072021.range.Range;
 import java.util.Scanner;
 
 public class RangeMain {
+    public static void printArray(Range[] array) {
+        System.out.print("[");
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) {
+                System.out.print(", ");
+            }
+
+            System.out.print(array[i]);
+        }
+
+        System.out.println("]");
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -14,13 +27,13 @@ public class RangeMain {
         System.out.print("Введите координату конца диапазона: ");
         double to = scanner.nextDouble();
 
-        Range range = new Range(from, to);
-        System.out.println("Длина диапазона = " + range.getLength());
+        Range range1 = new Range(from, to);
+        System.out.println("Длина диапазона = " + range1.getLength());
 
         System.out.print("Введите произвольное число для проверки на попадание в диапазон: ");
         double enteredNumber = scanner.nextDouble();
 
-        if (range.isInside(enteredNumber)) {
+        if (range1.isInside(enteredNumber)) {
             System.out.println("Введенное число " + enteredNumber + " находится в заданном диапазоне.");
         } else {
             System.out.println("Введенное число " + enteredNumber + " не находится в заданном диапазоне.");
@@ -40,39 +53,15 @@ public class RangeMain {
         System.out.print("Введите координату конца второго диапазона: ");
         double to2 = scanner.nextDouble();
 
-        Range range1 = new Range(from1, to1);
-        Range range2 = new Range(from2, to2);
+        Range range2 = new Range(from1, to1);
+        Range range3 = new Range(from2, to2);
 
-        Range range3 = null;
-        range3 = range1.getIntersection(range2);
+        System.out.println("Пересечение диапазонов = " + range2.getIntersection(range3));
 
-        if (range3 == null) {
-            System.out.println("Пересечения диапазонов нет");
-        } else {
-            System.out.println("Пересечение диапазонов = от " + range3.getFrom() + " до " + range3.getTo());
-        }
+        System.out.print("Объединение диапазонов = ");
+        printArray(range2.getUnion(range3));
 
-        Range[] array = null;
-        array = range1.getIntegration(range2);
-
-        System.out.print("Объедиение диапазонов =");
-
-        for (Range e : array) {
-            System.out.print(" от " + e.getFrom() + " до " + e.getTo());
-        }
-
-        array = range1.getDifference(range2);
-
-        if ((from2 < from1 && to2 > to1)) {
-            System.out.println();
-            System.out.println("Разность диапазонов = 0");
-        } else {
-            System.out.println();
-            System.out.print("Разность диапазонов =");
-
-            for (Range e : array) {
-                System.out.print(" от " + e.getFrom() + " до " + e.getTo());
-            }
-        }
+        System.out.print("Разность диапазонов = ");
+        printArray(range2.getDifference(range3));
     }
 }

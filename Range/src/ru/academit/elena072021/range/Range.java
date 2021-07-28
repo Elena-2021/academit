@@ -34,78 +34,43 @@ public class Range {
     }
 
     public Range getIntersection(Range range) {
-        if ((range.from <= from || range.from >= to) && (range.to <= from || range.to >= to) && (from <= range.from ||
-                from >= range.to) && (to <= range.from || to >= range.to)) {
+        if (range.to <= from || to <= range.from) {
             return null;
         }
 
-        if (range.from > from && range.to < to) {
-            return new Range(range.from, range.to);
-        }
-
-        if (range.from > from && range.to > to) {
-            return new Range(range.from, to);
-        }
-
-        if (range.from < from && range.to > to) {
-            return new Range(from, to);
-        }
-
-        return new Range(from, range.to);
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
-    public Range[] getIntegration(Range range) {
-        Range[] array = null;
-
-        if ((range.from < from || range.from > to) && (range.to < from || range.to > to) && (from < range.from ||
-                from > range.to) && (to < range.from || to > range.to)) {
-            array = new Range[]{new Range(from, to), new Range(range.from, range.to)};
-            return array;
+    public Range[] getUnion(Range range) {
+        if ((to < range.from || range.to < from)) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
-        if (range.from >= from && range.to <= to) {
-            array = new Range[]{new Range(from, to)};
-            return array;
-        }
-
-        if (range.from >= from && range.to >= to) {
-            array = new Range[]{new Range(from, range.to)};
-            return array;
-        }
-
-        if (range.from <= from && range.to >= to) {
-            array = new Range[]{new Range(range.from, range.to)};
-            return array;
-        }
-
-        array = new Range[]{new Range(range.from, to)};
-        return array;
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
     public Range[] getDifference(Range range) {
-        Range[] array = null;
-
-        if ((range.from <= from || range.from >= to) && (range.to <= from || range.to >= to) && (from <= range.from ||
-                from >= range.to) && (to <= range.from || to >= range.to)) {
-            array = new Range[]{new Range(from, to)};
-            return array;
+        if (range.to <= from || to <= range.from) {
+            return new Range[]{new Range(from, to)};
         }
 
         if (range.from > from && range.to < to) {
-            array = new Range[]{new Range(from, range.from), new Range(range.to, to)};
-            return array;
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
-        if (range.from > from && range.to > to) {
-            array = new Range[]{new Range(from, range.from)};
-            return array;
+        if (range.from > from && range.to >= to) {
+            return new Range[]{new Range(from, range.from)};
         }
 
-        if (range.from < from && range.to > to) {
-            return null;
+        if (range.from <= from && range.to < to) {
+            return new Range[]{new Range(range.to, to)};
         }
 
-        array = new Range[]{new Range(range.to, to)};
-        return array;
+        return new Range[0];
+    }
+
+    @Override
+    public String toString() {
+        return "(" + from + "; " + to + ")";
     }
 }
