@@ -35,16 +35,16 @@ public class Rectangle implements Shape {
     }
 
     @Override
-    public boolean equals(Object shape) {
-        if (shape == this) {
+    public boolean equals(Object object) {
+        if (object == this) {
             return true;
         }
 
-        if (shape == null || getClass() != shape.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
 
-        Rectangle rectangle = (Rectangle) shape;
+        Rectangle rectangle = (Rectangle) object;
 
         return width == rectangle.width && height == rectangle.height;
     }
@@ -53,8 +53,10 @@ public class Rectangle implements Shape {
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
+
         hash = prime * hash + Double.hashCode(width);
         hash = prime * hash + Double.hashCode(height);
+
         return hash;
     }
 }

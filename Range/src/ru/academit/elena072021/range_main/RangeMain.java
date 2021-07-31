@@ -22,12 +22,12 @@ public class RangeMain {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Введите координату начала диапазона: ");
-        double from = scanner.nextDouble();
+        double from1 = scanner.nextDouble();
 
         System.out.print("Введите координату конца диапазона: ");
-        double to = scanner.nextDouble();
+        double to1 = scanner.nextDouble();
 
-        Range range1 = new Range(from, to);
+        Range range1 = new Range(from1, to1);
         System.out.println("Длина диапазона = " + range1.getLength());
 
         System.out.print("Введите произвольное число для проверки на попадание в диапазон: ");
@@ -42,19 +42,19 @@ public class RangeMain {
         System.out.println();
         System.out.println("Теперь необходимы координаты двух диапазонов");
         System.out.print("Введите координату начала первого диапазона: ");
-        double from1 = scanner.nextDouble();
-
-        System.out.print("Введите координату конца первого диапазона: ");
-        double to1 = scanner.nextDouble();
-
-        System.out.print("Введите координату начала второго диапазона: ");
         double from2 = scanner.nextDouble();
 
-        System.out.print("Введите координату конца второго диапазона: ");
+        System.out.print("Введите координату конца первого диапазона: ");
         double to2 = scanner.nextDouble();
 
-        Range range2 = new Range(from1, to1);
-        Range range3 = new Range(from2, to2);
+        System.out.print("Введите координату начала второго диапазона: ");
+        double from3 = scanner.nextDouble();
+
+        System.out.print("Введите координату конца второго диапазона: ");
+        double to3 = scanner.nextDouble();
+
+        Range range2 = new Range(from2, to2);
+        Range range3 = new Range(from3, to3);
 
         System.out.println("Пересечение диапазонов = " + range2.getIntersection(range3));
 

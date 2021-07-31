@@ -5,6 +5,9 @@ import java.util.Arrays;
 import ru.academit.elena072021.shapes.*;
 
 public class Main {
+    /* Неоднозначное требование "Компараторы нужно перенести в пакет к main", это может означать, как перенос классов в пакет с main, так и реализация компараторов в файле класса main.
+    public static Comparator<Shape> AreaComparator = Comparator.comparingDouble(Shape::getArea);
+    public static Comparator<Shape> PerimeterComparator = Comparator.comparingDouble(Shape::getPerimeter); */
     public static Shape getShapeWithAreaSizeSetPosition(Shape[] array, int position) {    // position - порядковый номер позиции от max к min.
         if (array.length < position) {
             return null;
