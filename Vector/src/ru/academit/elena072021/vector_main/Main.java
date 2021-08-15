@@ -31,7 +31,7 @@ public class Main {
 
             System.out.println("Скалярное произведение векторов: vector5 и vector6 = " + Vector.getScalarVectorsProduct(vector5, vector6));
 
-            vector2.getVectorMultiplicationByScalar(3);
+            vector2.multiplicationByScalar(3);
             System.out.println("vector2 = " + vector2);
 
             Vector vector7 = null;
@@ -40,7 +40,7 @@ public class Main {
             Vector vector9 = new Vector(new double[]{1.0, 1.0, 1.0, 1.0});
             System.out.println("vector9 = " + vector9);
 
-        } catch (IllegalArgumentException e1) {
+        } catch (IllegalArgumentException | NullPointerException e1) {
             System.out.println();
             e1.printStackTrace();
         }
