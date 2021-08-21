@@ -60,7 +60,7 @@ public class Main {
 
         System.out.println("Длина vector13 = " + vector13.getLength());
         System.out.println("12 компанент vector13 = " + vector13.getComponent(11));
-        vector13.setComponent(10,333.0);
+        vector13.setComponent(10, 333.0);
         System.out.println("vector13 = " + vector13);
         System.out.println("Размерность vector13 = " + vector13.getSize());
     }
