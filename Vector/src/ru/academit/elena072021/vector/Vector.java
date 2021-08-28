@@ -72,7 +72,7 @@ public class Vector {
     }
 
     // a. Прибавление к вектору другого вектора
-    public void addUp(Vector vector) {
+    public void add(Vector vector) {
         if (vector == null) {
             throw new NullPointerException("The argument must not be = null");
         }
@@ -109,70 +109,66 @@ public class Vector {
     }
 
     // d. Разворот вектора (умножение всех компонент на -1)
-    public void reversal() {
+    public void reverse() {
         multiplyByScalar(-1);
     }
 
     // e. Получение длины вектора
     public double getLength() {
-        double coordinatesSquaresSum = 0;
+        double squaresSum = 0;
 
         for (double v : coordinates) {
-            coordinatesSquaresSum += v * v;
+            squaresSum += v * v;
         }
 
-        return Math.sqrt(coordinatesSquaresSum);
+        return Math.sqrt(squaresSum);
     }
 
     // f. Получение компоненты вектора по индексу
-    public double getComponent(int index) {
+    public double getCoordinate(int index) {
         if (index < 0) {
-            throw new ArrayIndexOutOfBoundsException("Index (" + index + ") must be >= 0");
+            throw new IndexOutOfBoundsException("Index (" + index + ") must be greater than or equal to zero");
         }
 
         if (index >= coordinates.length) {
-            throw new ArrayIndexOutOfBoundsException("The index (" + index + ") must be <= than the length of the vector");
+            throw new IndexOutOfBoundsException("The index (" + index + ") must be less than " + coordinates.length);
         }
 
         return coordinates[index];
     }
 
     // f. Установка компоненты вектора по индексу
-    public void setComponent(int index, double component) {
+    public void setCoordinate(int index, double coordinate) {
         if (index < 0) {
-            throw new ArrayIndexOutOfBoundsException("Index (" + index + ") must be >= 0");
+            throw new IndexOutOfBoundsException("Index (" + index + ") must be greater than or equal to zero");
         }
 
         if (index >= coordinates.length) {
-            throw new ArrayIndexOutOfBoundsException("The index (" + index + ") must be less than or equal to the length of the vector");
+            throw new IndexOutOfBoundsException("The index (" + index + ") must be less than " + coordinates.length);
         }
 
-        coordinates[index] = component;
+        coordinates[index] = coordinate;
     }
 
     // g. Переопределить метод equals, чтобы был true векторы имеют одинаковую размерность и соответствующие компоненты равны.
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-
-        if (this == o) {
+        if (o == this) {
             return true;
         }
 
-        if (getClass() != o.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
 
-        Vector objectVector = (Vector) o;
+        Vector vector = (Vector) o;
 
-        if (coordinates.length != objectVector.coordinates.length) {
+        if (coordinates.length != vector.coordinates.length) {
             return false;
         }
 
         for (int i = 0; i < coordinates.length; i++) {
-            if (coordinates[i] != objectVector.coordinates[i]) {
+            if (coordinates[i] != vector.coordinates[i]) {
                 return false;
             }
         }
@@ -187,7 +183,7 @@ public class Vector {
     }
 
     // a. Сложение двух векторов – должен создаваться новый вектор
-    public static Vector getAmount(Vector vector1, Vector vector2) {
+    public static Vector getSum(Vector vector1, Vector vector2) {
         if (vector1 == null) {
             throw new NullPointerException("First argument shouldn't be = null");
         }
@@ -196,10 +192,10 @@ public class Vector {
             throw new NullPointerException("Second argument shouldn't be = null");
         }
 
-        Vector vector = new Vector(vector1);
-        vector.addUp(vector2);
+        Vector resultingVector = new Vector(vector1);
+        resultingVector.add(vector2);
 
-        return vector;
+        return resultingVector;
     }
 
     // b. Вычитание векторов – должен создаваться новый вектор
@@ -212,10 +208,10 @@ public class Vector {
             throw new NullPointerException("Second argument shouldn't be = null");
         }
 
-        Vector vector = new Vector(vector1);
-        vector.subtract(vector2);
+        Vector resultingVector = new Vector(vector1);
+        resultingVector.subtract(vector2);
 
-        return vector;
+        return resultingVector;
     }
 
     // c. Скалярное произведение векторов
@@ -228,13 +224,13 @@ public class Vector {
             throw new NullPointerException("Second argument shouldn't be = null");
         }
 
-        int size = Math.min(vector1.coordinates.length, vector2.coordinates.length);
-        double currentScalarProduct = 0;
+        int minSize = Math.min(vector1.coordinates.length, vector2.coordinates.length);
+        double scalarProduct = 0;
 
-        for (int i = 0; i < size; i++) {
-            currentScalarProduct += vector1.coordinates[i] * vector2.coordinates[i];
+        for (int i = 0; i < minSize; i++) {
+            scalarProduct += vector1.coordinates[i] * vector2.coordinates[i];
         }
 
-        return currentScalarProduct;
+        return scalarProduct;
     }
 }

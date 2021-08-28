@@ -17,7 +17,7 @@ public class Main {
             Vector vector4 = new Vector(15, new double[]{10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0});
             System.out.println("vector4 = " + vector4);
 
-            Vector vector5 = Vector.getAmount(vector2, vector4);
+            Vector vector5 = Vector.getSum(vector2, vector4);
             System.out.println("vector5 = " + vector5);
 
             Vector vector6 = Vector.getDifference(vector2, vector4);
@@ -51,7 +51,7 @@ public class Main {
         Vector vector12 = new Vector(new double[]{0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0});
         System.out.println("vector12 = " + vector12);
 
-        vector12.addUp(vector11);
+        vector12.add(vector11);
         System.out.println("vector12 = " + vector12);
 
         Vector vector13 = new Vector(new double[]{0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0});
@@ -59,8 +59,8 @@ public class Main {
         System.out.println("vector13 = " + vector13);
 
         System.out.println("Длина vector13 = " + vector13.getLength());
-        System.out.println("12 компанент vector13 = " + vector13.getComponent(11));
-        vector13.setComponent(10, 333.0);
+        System.out.println("12 компонент vector13 = " + vector13.getCoordinate(11));
+        vector13.setCoordinate(10, 333.0);
         System.out.println("vector13 = " + vector13);
         System.out.println("Размерность vector13 = " + vector13.getSize());
     }
