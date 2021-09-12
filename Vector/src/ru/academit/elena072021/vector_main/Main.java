@@ -39,7 +39,6 @@ public class Main {
 
             Vector vector9 = new Vector(new double[]{1.0, 1.0, 1.0, 1.0});
             System.out.println("vector9 = " + vector9);
-
         } catch (IllegalArgumentException | NullPointerException | ArrayIndexOutOfBoundsException e1) {
             //System.out.println();
             e1.printStackTrace();

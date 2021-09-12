@@ -17,10 +17,8 @@ public class ArrayListHome {
             }
 
             System.out.println("Список строк из файла: " + fileStringList);
-
         } catch (FileNotFoundException e) {
             System.out.println("File " + file + " not found.");
-
         } catch (IOException e) {
             System.out.println("No data received from the file" + file);
         }

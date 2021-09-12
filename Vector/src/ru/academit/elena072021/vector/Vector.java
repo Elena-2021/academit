@@ -192,10 +192,10 @@ public class Vector {
             throw new NullPointerException("Second argument shouldn't be = null");
         }
 
-        Vector resultingVector = new Vector(vector1);
-        resultingVector.add(vector2);
+        Vector resultVector = new Vector(vector1);
+        resultVector.add(vector2);
 
-        return resultingVector;
+        return resultVector;
     }
 
     // b. Вычитание векторов – должен создаваться новый вектор
@@ -208,10 +208,10 @@ public class Vector {
             throw new NullPointerException("Second argument shouldn't be = null");
         }
 
-        Vector resultingVector = new Vector(vector1);
-        resultingVector.subtract(vector2);
+        Vector resultVector = new Vector(vector1);
+        resultVector.subtract(vector2);
 
-        return resultingVector;
+        return resultVector;
     }
 
     // c. Скалярное произведение векторов
