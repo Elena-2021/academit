@@ -27,7 +27,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Вставка элемента по индексу: 'InsertElement'");
-        stringsList.InsertElementByIndex(3, "InsertElement");
+        stringsList.insertElementByIndex(3, "InsertElement");
         System.out.println(stringsList);
         System.out.println();
 

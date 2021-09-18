@@ -72,7 +72,7 @@ public class SinglyLinkedList<T> {
     }
 
     // вставка элемента по индексу
-    public void InsertElementByIndex(int index, T data) {   // index - диапазон от нуля
+    public void insertElementByIndex(int index, T data) {   // index - диапазон от нуля
 
         if (index < 0 || index > count) {
             throw new IndexOutOfBoundsException("parameter index = " + index + " is outside the list interval [" + 0 + ";" + (count - 1) + "]");
