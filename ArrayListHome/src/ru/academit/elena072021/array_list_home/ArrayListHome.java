@@ -5,51 +5,53 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArrayListHome {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String file = "array_list_home.txt";
-        ArrayList<String> fileStringList = new ArrayList<>();
+        ArrayList<String> fileStringsList = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String stringFromFile;
 
             while ((stringFromFile = reader.readLine()) != null) {
-                fileStringList.add(stringFromFile);
+                fileStringsList.add(stringFromFile);
             }
 
-            System.out.println("Список строк из файла: " + fileStringList);
+            System.out.println("Список строк из файла: " + fileStringsList);
         } catch (FileNotFoundException e) {
-            System.out.println("File " + file + " not found.");
+            System.out.println("Файл " + file + " не найден.");
         } catch (IOException e) {
-            System.out.println("No data received from the file" + file);
+            System.out.println("Нет данных из файла" + file);
         }
 
-        ArrayList<Integer> arrayList1 = new ArrayList<>(Arrays.asList(2, 4, 9, 3, 4, 0, 23, 8));
-        System.out.println("Список целых чисел: " + arrayList1);
+        ArrayList<Integer> integersList = new ArrayList<>(Arrays.asList(2, 4, 9, 3, 4, 0, 23, 8));
+        System.out.println("Список целых чисел: " + integersList);
 
-        for (int i = 0; i < arrayList1.size(); i++) {
-            if (arrayList1.get(i) % 2 == 0) {
-                arrayList1.remove(i);
+        for (int i = 0; i < integersList.size(); i++) {
+            if (integersList.get(i) % 2 == 0) {
+                integersList.remove(i);
                 i--;
             }
         }
 
-        System.out.println("Список без четных чисел: " + arrayList1);
+        System.out.println("Список без четных чисел: " + integersList);
 
-        ArrayList<Integer> arrayList2 = new ArrayList<>(Arrays.asList(1, 1, 1, 0, 10, 4, 5, 9, 4, 10, 7, 11, 11, 12));
-        System.out.println("Список с повторяющимися числами: " + arrayList2);
+        ArrayList<Integer> repeatedIntegersList = new ArrayList<>(Arrays.asList(1, 1, 1, 0, 10, 4, 5, 9, 4, 10, 7, 11, 11, 12));
+        System.out.println("Список с повторяющимися числами: " + repeatedIntegersList);
 
-        if (arrayList2 == null) {
-            System.out.println("Нет списка с повторяющимися числами");
-        } else {
-            ArrayList<Integer> noRepeatingIntegersList = new ArrayList<>(arrayList2.size());
+        try {
+            ArrayList<Integer> noRepeatingIntegersList = new ArrayList<>(repeatedIntegersList.size());
 
-            for (Integer e : arrayList2) {
+            for (Integer e : repeatedIntegersList) {
                 if (!noRepeatingIntegersList.contains(e)) {
                     noRepeatingIntegersList.add(e);
                 }
             }
 
             System.out.println("Список целых чисел без повторений: " + noRepeatingIntegersList);
+        } catch (NullPointerException e) {
+            System.out.println("Нет данных в списке с повторяющимися числами");
+        } catch (Exception e) {
+            System.out.println("Неизвестная ошибка");
         }
     }
 }
