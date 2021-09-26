@@ -83,7 +83,7 @@ public class SinglyLinkedList<T> {
     public void insertByIndex(int index, T data) {   // index - диапазон от нуля
 
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + size + "]");
         }
 
         if (index == 0) {
@@ -125,7 +125,6 @@ public class SinglyLinkedList<T> {
         }
 
         if (index == size - 1) {
-            deletedData = previousItem.getNext().getData();
             previousItem.setNext(null);
             size--;
 
@@ -189,7 +188,7 @@ public class SinglyLinkedList<T> {
 
         // удаление последнего элемента
         if (currentItem != null && currentItem.getNext() == null && currentItem.getData() == data) {
-            System.out.println("End item.getData() == " + currentItem.getData());
+            System.out.println("End item.getData() == " + data);
             deleteLast();
 
             return true;
@@ -267,4 +266,25 @@ public class SinglyLinkedList<T> {
         return "size = " + size + ", [" + stringBuilder.delete(0, 2) + "]";
     }
 
+    public T getFirst() {
+        return head.getData();
+    }
+
+    private boolean isIndexCorrect (int index, int size) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + size + "]");
+        }
+
+        return true;
+    }
+
+    private ListItem<T> getPreviousItem (int index) {
+        ListItem<T> previousItem = head;
+
+        for (int i = 0; i < index - 1; i++) {
+            previousItem = previousItem.getNext();
+        }
+
+        return previousItem;
+    }
 }
