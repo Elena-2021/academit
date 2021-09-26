@@ -2,195 +2,204 @@ package ru.academit.elena072021.list;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
-    private int count;
+    private int size;
+
+    private class ListItem<T> {
+        private T data;
+        private ListItem<T> next;
+
+        public ListItem(T data) {
+            this.data = data;
+        }
+
+        public ListItem(T data, ListItem<T> next) {
+            this.data = data;
+            this.next = next;
+        }
+
+        public T getData() {
+            return data;
+        }
+
+        public void setData(T data) {
+            this.data = data;
+        }
+
+        public ListItem<T> getNext() {
+            return next;
+        }
+
+        public void setNext(ListItem<T> next) {
+            this.next = next;
+        }
+    }
 
     public SinglyLinkedList() {
-        head = null;
-        count = 0;
     }
 
     public SinglyLinkedList(T data) {
         head = new ListItem<>(data);
-        count = 1;
+        size = 1;
     }
 
     // получение размера списка
     public int getSize() {
-        return count;
+        return size;
     }
 
     // вставка элемента в начало
-    public void addListBeginning(T data) {
-        ListItem<T> p = new ListItem<>(data);
-        p.setNext(head);
-        head = p;
-        count++;
+    public void addFirst(T data) {
+        head = new ListItem<>(data, head);
+        size++;
     }
 
     // удаление первого элемента
-    public T deleteListElementFirst() {
-        T result = head.getData();
+    public T deleteFirst() {
+        if (size == 0 || head == null) {
+            throw new IndexOutOfBoundsException("The list don't contains elements, deletion is not possible.");
+        }
+
+        T data = head.getData();
         head = head.getNext();
-        count--;
-
-        return result;
-    }
-
-    // вставка элемента в конец
-    public void addListEnd(T data) {
-        ListItem<T> lastElementPointer = null;
-
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            lastElementPointer = p;
-        }
-
-        ListItem<T> p = new ListItem<>(data, null);
-
-        if (lastElementPointer != null) {
-            lastElementPointer.setNext(p);
-        } else {
-            head = p;
-        }
-
-        count++;
-    }
-
-    // удаление последнего элемента
-    public T deleteLastElement() {
-        ListItem<T> lastElementPointer = null;
-        ListItem<T> previousElementPointer = null;
-
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            previousElementPointer = lastElementPointer;
-            lastElementPointer = p;
-        }
-
-        previousElementPointer.setNext(null);
-        count--;
-
-        return lastElementPointer.getData();
-    }
-
-    // вставка элемента по индексу
-    public void insertElementByIndex(int index, T data) {   // index - диапазон от нуля
-
-        if (index < 0 || index > count) {
-            throw new IndexOutOfBoundsException("parameter index = " + index + " is outside the list interval [" + 0 + ";" + (count - 1) + "]");
-        }
-
-        if (index == 0) {
-            addListBeginning(data);
-        } else if (index == count) {
-            addListEnd(data);
-        } else {
-            ListItem<T> previousElementPointer = head;
-
-            for (int i = 1; i < index; i++) {
-                previousElementPointer = previousElementPointer.getNext();
-            }
-
-            ListItem<T> p = new ListItem<>(data, previousElementPointer.getNext());
-            previousElementPointer.setNext(p);
-            count++;
-        }
-    }
-
-    // удаление элемента по индексу
-    public T deleteElementByIndex(int index) {   // index - диапазон от нуля
-        if (index < 0 || index > count - 1) {
-            throw new IndexOutOfBoundsException("parameter index = " + index + " is outside the list interval [" + 0 + ";" + (count - 1) + "]");
-        }
-
-        ListItem<T> previousElementPointer = head;
-
-        for (int i = 0; i < index - 1; i++) {
-            previousElementPointer = previousElementPointer.getNext();
-        }
-
-        T data = previousElementPointer.getNext().getData();
-
-        if (index == 0) {
-            data = previousElementPointer.getData();
-            deleteListElementFirst();
-
-            return data;
-        }
-
-        if (index == count - 1) {
-            data = previousElementPointer.getNext().getData();
-            deleteLastElement();
-
-            return data;
-        }
-
-        previousElementPointer.setNext(previousElementPointer.getNext().getNext());
-        count--;
+        size--;
 
         return data;
     }
 
-    // получение значения по указанному индексу.
-    public T getDataByIndex(int index) {   // index - диапазон от нуля
-        if (index < 0 || index > count - 1) {
-            throw new IndexOutOfBoundsException("parameter index = " + index + " is outside the list interval [" + 0 + ";" + (count - 1) + "]");
+    // вставка элемента в конец
+    public void addLast(T data) {
+        insertByIndex(size, data);
+    }
+
+    // удаление последнего элемента
+    public T deleteLast() {
+        if (size == 0 || head == null) {
+            throw new IndexOutOfBoundsException("The list don't contains elements, deletion is not possible.");
+        }
+        return deleteByIndex(size - 1);
+    }
+
+    // вставка элемента по индексу
+    public void insertByIndex(int index, T data) {   // index - диапазон от нуля
+
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
         }
 
-        ListItem<T> elementPointer = head;
+        if (index == 0) {
+            addFirst(data);
+        } else {
+            ListItem<T> previousItem = head;
+
+            for (int i = 1; i < index; i++) {
+                previousItem = previousItem.getNext();
+            }
+
+            if (index != size) {
+                ListItem<T> currentItem = new ListItem<>(data, previousItem.getNext());
+                previousItem.setNext(currentItem);
+            } else {
+                ListItem<T> currentItem = new ListItem<>(data);
+                previousItem.setNext(currentItem);
+            }
+            size++;
+        }
+    }
+
+    // удаление элемента по индексу
+    public T deleteByIndex(int index) {   // index - диапазон от нуля
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
+        }
+
+        ListItem<T> previousItem = head;
+
+        for (int i = 0; i < index - 1; i++) {
+            previousItem = previousItem.getNext();
+        }
+
+        T deletedData = previousItem.getNext().getData();
+
+        if (index == 0) {
+            return deleteFirst();
+        }
+
+        if (index == size - 1) {
+            deletedData = previousItem.getNext().getData();
+            previousItem.setNext(null);
+            size--;
+
+            return deletedData;
+        }
+
+        previousItem.setNext(previousItem.getNext().getNext());
+        size--;
+
+        return deletedData;
+    }
+
+    // получение значения по указанному индексу.
+    public T getByIndex(int index) {   // index - диапазон от нуля
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
+        }
+
+        ListItem<T> currentItem = head;
 
         for (int i = 0; i < index; i++) {
-            elementPointer = elementPointer.getNext();
+            currentItem = currentItem.getNext();
         }
 
-        return elementPointer.getData();
+        return currentItem.getData();
     }
 
     // изменение значения по указанному индексу.
-    public T setData(int index, T data) {   // index - диапазон от нуля
-        if (index < 0 || index > count - 1) {
-            throw new IndexOutOfBoundsException("parameter index = " + index + " is outside the list interval [" + 0 + ";" + (count - 1) + "]");
+    public T setByIndex(int index, T data) {   // index - диапазон от нуля
+        if (index < 0 || index > size - 1) {
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
         }
 
-        ListItem<T> elementPointer = head;
+        ListItem<T> currentItem = head;
 
         for (int i = 0; i < index; i++) {
-            elementPointer = elementPointer.getNext();
+            currentItem = currentItem.getNext();
         }
 
-        T oldData = elementPointer.getData();
-        elementPointer.setData(data);
+        T oldData = currentItem.getData();
+        currentItem.setData(data);
 
         return oldData;
     }
 
     // удаление узла по значению, пусть выдает true, если элемент был удален
-    public boolean deleteDate(T data) {   // index - диапазон от нуля
-        ListItem<T> previousElementPointer = null;
-        ListItem<T> elementPointer;
+    public boolean deleteByData(T data) {   // index - диапазон от нуля
+        ListItem<T> previousItem = null;
+        ListItem<T> currentItem;
 
-        for (elementPointer = head; elementPointer != null && elementPointer.getData() != data; elementPointer = elementPointer.getNext()) {
-            previousElementPointer = elementPointer;
+        for (currentItem = head; currentItem != null && currentItem.getData() != data; currentItem = currentItem.getNext()) {
+            previousItem = currentItem;
         }
 
         // удаление первого элемента
-        if (previousElementPointer == null) {
-            deleteListElementFirst();
+        if (previousItem == null) {
+            deleteFirst();
 
             return true;
         }
 
         // удаление последнего элемента
-        if (elementPointer != null && elementPointer.getNext() == null && elementPointer.getData() == data) {
-            System.out.println("End elementPointer.getData() == " + elementPointer.getData());
-            deleteLastElement();
+        if (currentItem != null && currentItem.getNext() == null && currentItem.getData() == data) {
+            System.out.println("End item.getData() == " + currentItem.getData());
+            deleteLast();
 
             return true;
         }
 
         // удаление среднего элемента
-        if (elementPointer != null && elementPointer.getData() == data) {
-            System.out.println("Mean elementPointer.getData() == " + data);
-            previousElementPointer.setNext(previousElementPointer.getNext().getNext());
-            count--;
+        if (currentItem != null && currentItem.getData() == data) {
+            System.out.println("Mean item.getData() == " + data);
+            previousItem.setNext(previousItem.getNext().getNext());
+            size--;
 
             return true;
         }
@@ -199,37 +208,48 @@ public class SinglyLinkedList<T> {
     }
 
     // разворот списка за линейное время
-    public void reverseList() {
-        ListItem<T>[] arrayPointer = new ListItem[count];
-        int index = 0;
-
-        for (ListItem<T> elementPointer = head; elementPointer != null; elementPointer = elementPointer.getNext()) {
-            arrayPointer[index] = elementPointer;
-            index++;
+    public void reverse() {
+        // проверка на пустой список и на список с одним элементом
+        if (head == null || size == 0 || size == 1) {
+            return;
         }
 
-        // проверка на несоответствии параметра count и длины списка
-        if (arrayPointer[count - 1] == null || arrayPointer[count - 1].getNext() != null) {
-            throw new IndexOutOfBoundsException("parameter count = " + count + " does not match the number of items in the list!");
+        for (ListItem<T> previousItem = null, currentItem = head, nextItem = currentItem.getNext(); nextItem != null; ) {
+            currentItem.setNext(previousItem);
+            previousItem = currentItem;
+            currentItem = nextItem;
+
+            if (nextItem.getNext() == null) {
+                nextItem = null;
+                currentItem.setNext(previousItem);
+                head = currentItem;
+            } else {
+                nextItem = nextItem.getNext();
+            }
         }
-
-        head = arrayPointer[count - 1];
-        ListItem<T> elementPointer = head;
-
-        for (int i = count - 2; i >= 0; i--) {
-            elementPointer.setNext(arrayPointer[i]);
-            elementPointer = elementPointer.getNext();
-        }
-
-        elementPointer.setNext(null);
     }
 
     // копирование списка
-    public SinglyLinkedList<T> copyList() {   // index - диапазон от нуля
-        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>();
+    public SinglyLinkedList<T> getCopy() {
+        // проверка на пустой список
+        if (head == null) {
+            return new SinglyLinkedList<>();
+        }
 
-        for (ListItem<T> elementPointer = head; elementPointer != null; elementPointer = elementPointer.getNext()) {
-            newSinglyLinkedList.addListEnd(elementPointer.getData());
+        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>();
+        ListItem<T> newLastItem = newSinglyLinkedList.head;
+
+        for (ListItem<T> currentItem = head; currentItem != null; currentItem = currentItem.getNext()) {
+            ListItem<T> newCurrentItem = new ListItem<>(currentItem.getData());
+
+            if (newLastItem == null) {
+                newSinglyLinkedList.head = newCurrentItem;
+            } else {
+                newLastItem.setNext(newCurrentItem);
+            }
+
+            newLastItem = newCurrentItem;
+            newSinglyLinkedList.size++;
         }
 
         return newSinglyLinkedList;
@@ -239,12 +259,12 @@ public class SinglyLinkedList<T> {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+        for (ListItem<T> currentItem = head; currentItem != null; currentItem = currentItem.getNext()) {
             stringBuilder.append(", ");
-            stringBuilder.append((String) p.getData());
+            stringBuilder.append(currentItem.getData());
         }
 
-        return "Параметры односвязного списка: count = " + count + ", [" + stringBuilder.delete(0, 2) + "]";
+        return "size = " + size + ", [" + stringBuilder.delete(0, 2) + "]";
     }
 
 }
