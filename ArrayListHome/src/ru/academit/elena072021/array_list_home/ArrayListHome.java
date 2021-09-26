@@ -38,9 +38,11 @@ public class ArrayListHome {
         ArrayList<Integer> repeatedIntegersList = new ArrayList<>(Arrays.asList(1, 1, 1, 0, 10, 4, 5, 9, 4, 10, 7, 11, 11, 12));
         System.out.println("Список с повторяющимися числами: " + repeatedIntegersList);
 
-        try {
-            ArrayList<Integer> noRepeatingIntegersList = new ArrayList<>(repeatedIntegersList.size());
+        ArrayList<Integer> noRepeatingIntegersList = new ArrayList<>(repeatedIntegersList.size());
 
+        if (repeatedIntegersList.size() == 0) {
+            System.out.println("Список с повторяющимися числами пустой");
+        } else {
             for (Integer e : repeatedIntegersList) {
                 if (!noRepeatingIntegersList.contains(e)) {
                     noRepeatingIntegersList.add(e);
@@ -48,10 +50,6 @@ public class ArrayListHome {
             }
 
             System.out.println("Список целых чисел без повторений: " + noRepeatingIntegersList);
-        } catch (NullPointerException e) {
-            System.out.println("Нет данных в списке с повторяющимися числами");
-        } catch (Exception e) {
-            System.out.println("Неизвестная ошибка");
         }
     }
 }
