@@ -49,7 +49,7 @@ public class Main {
         System.out.println("Изменение значения по указанному индексу: " + stringsList);
         System.out.println();
 
-        System.out.println("Значение удаленного элемента: " + stringsList.deleteByData("text_Front1"));
+        System.out.println("Значение удаленного элемента: " + stringsList.deleteByData("text_End1"));
         System.out.println(stringsList);
         System.out.println();
 
