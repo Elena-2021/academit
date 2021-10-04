@@ -45,7 +45,7 @@ public class SinglyLinkedList<T> {
 
     // удаление последнего элемента
     public T deleteLast() {
-        if (size == 0) {
+        if (size <= 0) {
             throw new NoSuchElementException("The list don't contains elements, deletion is not possible.");
         }
 
@@ -59,20 +59,10 @@ public class SinglyLinkedList<T> {
         if (index == 0) {
             addFirst(data);
         } else {
-            ListItem<T> previousItem = head;
-
-            for (int i = 1; i < index; i++) {
-                previousItem = previousItem.getNext();
-            }
-
-            if (index != size) {
-                ListItem<T> currentItem = new ListItem<>(data, previousItem.getNext());
-                previousItem.setNext(currentItem);
-            } else {
-                ListItem<T> currentItem = new ListItem<>(data);
-                previousItem.setNext(currentItem);
-            }
-
+            ListItem<T> previousItem = getItem(index - 1);
+            ListItem<T> currentItem;
+            currentItem = new ListItem<>(data, previousItem.getNext());
+            previousItem.setNext(currentItem);
             size++;
         }
     }
@@ -80,13 +70,7 @@ public class SinglyLinkedList<T> {
     // удаление элемента по индексу
     public T deleteByIndex(int index) {   // index - диапазон от нуля
         isIndexCorrect(index);
-
-        ListItem<T> previousItem = head;
-
-        for (int i = 1; i < index; i++) {
-            previousItem = previousItem.getNext();
-        }
-
+        ListItem<T> previousItem = getItem(index - 1);
         T deletedData = previousItem.getNext().getData();
 
         if (index == 0) {
@@ -103,25 +87,14 @@ public class SinglyLinkedList<T> {
     public T getByIndex(int index) {   // index - диапазон от нуля
         isIndexCorrect(index);
 
-        ListItem<T> currentItem = head;
-
-        for (int i = 0; i < index; i++) {
-            currentItem = currentItem.getNext();
-        }
-
-        return currentItem.getData();
+        return getItem(index).getData();
     }
 
     // изменение значения по указанному индексу.
     public T setByIndex(int index, T data) {   // index - диапазон от нуля
         isIndexCorrect(index);
 
-        ListItem<T> currentItem = head;
-
-        for (int i = 0; i < index; i++) {
-            currentItem = currentItem.getNext();
-        }
-
+        ListItem<T> currentItem = getItem(index);
         T oldData = currentItem.getData();
         currentItem.setData(data);
 
@@ -201,14 +174,18 @@ public class SinglyLinkedList<T> {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("[");
 
         for (ListItem<T> currentItem = head; currentItem != null; currentItem = currentItem.getNext()) {
             stringBuilder.append(", ");
             stringBuilder.append(currentItem.getData());
         }
 
-        return "size = " + size + ", [" + stringBuilder.delete(0, 2) + "]";
+        stringBuilder.delete(1, 3);
+        stringBuilder.append("]");
+
+        //return "size = " + size + ", " + stringBuilder;
+        return stringBuilder.toString();
     }
 
     public T getFirst() {
@@ -226,6 +203,7 @@ public class SinglyLinkedList<T> {
     }
 
     private ListItem<T> getItem(int index) {
+        isIndexCorrect(index);
         ListItem<T> item = head;
 
         for (int i = 0; i < index; i++) {

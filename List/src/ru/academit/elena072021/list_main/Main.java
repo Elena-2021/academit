@@ -49,7 +49,7 @@ public class Main {
         System.out.println("Изменение значения по указанному индексу: " + stringsList);
         System.out.println();
 
-        System.out.println("Значение удаленного элемента: " + stringsList.deleteByData("text_End1"));
+        System.out.println("Результат удаления элемента по значению: " + stringsList.deleteByData("text_End1"));
         System.out.println(stringsList);
         System.out.println();
 
@@ -60,5 +60,8 @@ public class Main {
         SinglyLinkedList<String> stringsList2 = new SinglyLinkedList<>();
         stringsList2.reverse();
         System.out.println("Разворот списка: " + stringsList2);
+        System.out.println();
+
+        System.out.println("getItem: " + stringsList.getByIndex(0));
     }
 }
