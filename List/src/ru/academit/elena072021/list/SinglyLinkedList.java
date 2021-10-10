@@ -45,7 +45,7 @@ public class SinglyLinkedList<T> {
 
     // удаление последнего элемента
     public T deleteLast() {
-        if (size <= 0) {
+        if (size == 0) {
             throw new NoSuchElementException("The list don't contains elements, deletion is not possible.");
         }
 
@@ -54,29 +54,29 @@ public class SinglyLinkedList<T> {
 
     // вставка элемента по индексу
     public void insertByIndex(int index, T data) {   // index - диапазон от нуля
-        isIndexCorrect(index - 1);
-
         if (index == 0) {
             addFirst(data);
-        } else {
-            ListItem<T> previousItem = getItem(index - 1);
-            ListItem<T> currentItem;
-            currentItem = new ListItem<>(data, previousItem.getNext());
-            previousItem.setNext(currentItem);
-            size++;
+            return;
         }
+
+        checkIndex(index, 1);
+
+        ListItem<T> previousItem = getItem(index - 1);
+        ListItem<T> newItem = new ListItem<>(data, previousItem.getNext());
+        previousItem.setNext(newItem);
+        size++;
     }
 
     // удаление элемента по индексу
     public T deleteByIndex(int index) {   // index - диапазон от нуля
-        isIndexCorrect(index);
-        ListItem<T> previousItem = getItem(index - 1);
-        T deletedData = previousItem.getNext().getData();
-
         if (index == 0) {
             return deleteFirst();
         }
 
+        checkIndex(index);
+
+        ListItem<T> previousItem = getItem(index - 1);
+        T deletedData = previousItem.getNext().getData();
         previousItem.setNext(previousItem.getNext().getNext());
         size--;
 
@@ -85,14 +85,14 @@ public class SinglyLinkedList<T> {
 
     // получение значения по указанному индексу.
     public T getByIndex(int index) {   // index - диапазон от нуля
-        isIndexCorrect(index);
+        checkIndex(index);
 
         return getItem(index).getData();
     }
 
     // изменение значения по указанному индексу.
     public T setByIndex(int index, T data) {   // index - диапазон от нуля
-        isIndexCorrect(index);
+        checkIndex(index);
 
         ListItem<T> currentItem = getItem(index);
         T oldData = currentItem.getData();
@@ -111,7 +111,7 @@ public class SinglyLinkedList<T> {
         }
 
         for (ListItem<T> previousItem = head, currentItem = head.getNext(); currentItem != null; currentItem = currentItem.getNext()) {
-            if (currentItem.getData().equals(data)) {
+            if ((currentItem.getData() == null && data == null) || (currentItem.getData() != null && currentItem.getData().equals(data))) {
                 previousItem.setNext(previousItem.getNext().getNext());
                 size--;
 
@@ -148,12 +148,14 @@ public class SinglyLinkedList<T> {
 
     // копирование списка
     public SinglyLinkedList<T> getCopy() {
+        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>();
+
         // проверка на пустой список
         if (size == 0) {
-            return new SinglyLinkedList<>();
+            return newSinglyLinkedList;
         }
 
-        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>();
+        newSinglyLinkedList.size = size;
         ListItem<T> newLastItem = newSinglyLinkedList.head;
 
         for (ListItem<T> currentItem = head; currentItem != null; currentItem = currentItem.getNext()) {
@@ -166,7 +168,6 @@ public class SinglyLinkedList<T> {
             }
 
             newLastItem = newCurrentItem;
-            newSinglyLinkedList.size++;
         }
 
         return newSinglyLinkedList;
@@ -196,14 +197,21 @@ public class SinglyLinkedList<T> {
         return head.getData();
     }
 
-    private void isIndexCorrect(int index) {
+    private void checkIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
         }
     }
 
+    private void checkIndex(int index, int sizeChange) {
+        if (index < 0 || index >= size + sizeChange) {
+            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1 + sizeChange) + "]");
+        }
+    }
+
     private ListItem<T> getItem(int index) {
-        isIndexCorrect(index);
+        checkIndex(index);
+
         ListItem<T> item = head;
 
         for (int i = 0; i < index; i++) {

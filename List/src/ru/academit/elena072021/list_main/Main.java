@@ -45,7 +45,8 @@ public class Main {
         System.out.println("Получение значения по указанному индексу: " + stringsList.getByIndex(2));
         System.out.println();
 
-        System.out.println("Значение измененного элемента: " + stringsList.setByIndex(1, "Fish"));
+        //System.out.println("Значение измененного элемента: " + stringsList.setByIndex(1, "Fish"));
+        System.out.println("Значение измененного элемента: " + stringsList.setByIndex(1, null));
         System.out.println("Изменение значения по указанному индексу: " + stringsList);
         System.out.println();
 
