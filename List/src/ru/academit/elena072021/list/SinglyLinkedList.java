@@ -1,6 +1,7 @@
 package ru.academit.elena072021.list;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
@@ -69,11 +70,11 @@ public class SinglyLinkedList<T> {
 
     // удаление элемента по индексу
     public T deleteByIndex(int index) {   // index - диапазон от нуля
+        checkIndex(index);
+
         if (index == 0) {
             return deleteFirst();
         }
-
-        checkIndex(index);
 
         ListItem<T> previousItem = getItem(index - 1);
         T deletedData = previousItem.getNext().getData();
@@ -102,17 +103,21 @@ public class SinglyLinkedList<T> {
     }
 
     // удаление узла по значению, пусть выдает true, если элемент был удален
-    public boolean deleteByData(T data) {   // index - диапазон от нуля
+    public boolean deleteByData(T data) {
+        if (size == 0) {
+            return false;
+        }
+
         // удаление первого элемента
-        if (head != null && head.getData().equals(data)) {
+        if (head != null && Objects.equals(head.getData(), data)) {
             deleteFirst();
 
             return true;
         }
 
         for (ListItem<T> previousItem = head, currentItem = head.getNext(); currentItem != null; currentItem = currentItem.getNext()) {
-            if ((currentItem.getData() == null && data == null) || (currentItem.getData() != null && currentItem.getData().equals(data))) {
-                previousItem.setNext(previousItem.getNext().getNext());
+            if (Objects.equals(currentItem.getData(), data)) {
+                previousItem.setNext(currentItem.getNext());
                 size--;
 
                 return true;
@@ -148,29 +153,29 @@ public class SinglyLinkedList<T> {
 
     // копирование списка
     public SinglyLinkedList<T> getCopy() {
-        SinglyLinkedList<T> newSinglyLinkedList = new SinglyLinkedList<>();
+        SinglyLinkedList<T> newList = new SinglyLinkedList<>();
 
         // проверка на пустой список
         if (size == 0) {
-            return newSinglyLinkedList;
+            return newList;
         }
 
-        newSinglyLinkedList.size = size;
-        ListItem<T> newLastItem = newSinglyLinkedList.head;
+        newList.size = size;
+        ListItem<T> newListPreviousItem = newList.head;
 
         for (ListItem<T> currentItem = head; currentItem != null; currentItem = currentItem.getNext()) {
-            ListItem<T> newCurrentItem = new ListItem<>(currentItem.getData());
+            ListItem<T> newListCurrentItem = new ListItem<>(currentItem.getData());
 
-            if (newLastItem == null) {
-                newSinglyLinkedList.head = newCurrentItem;
+            if (newListPreviousItem == null) {
+                newList.head = newListCurrentItem;
             } else {
-                newLastItem.setNext(newCurrentItem);
+                newListPreviousItem.setNext(newListCurrentItem);
             }
 
-            newLastItem = newCurrentItem;
+            newListPreviousItem = newListCurrentItem;
         }
 
-        return newSinglyLinkedList;
+        return newList;
     }
 
     @Override
@@ -198,9 +203,7 @@ public class SinglyLinkedList<T> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Parameter index = " + index + " is outside the list interval [0;" + (size - 1) + "]");
-        }
+        checkIndex(index, 0);
     }
 
     private void checkIndex(int index, int sizeChange) {
